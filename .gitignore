@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Models — too large for GitHub (100MB limit)
+backend/models/
+backend/board_detector_best.pt
+
+# Uploads — user data, don't commit
+backend/uploads/
+
+# Database — local data, don't commit
+backend/defectiq.db
+
+# Environment variables — never commit secrets
+.env
+backend/.env
+frontend/.env
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
