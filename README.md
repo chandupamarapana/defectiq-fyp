@@ -4,7 +4,7 @@ Real-time computer vision system for post-manufactured plywood defect detection.
 
 **Student:** Chandupa Marapana (w1998720)  
 **Degree:** BEng Software Engineering — IIT × University of Westminster  
-**Supervisor:** Ms. Sapna Kumarapathirage  
+**Supervisor:** Ms. Sapna Kumarapathirage
 
 ---
 
@@ -22,15 +22,16 @@ bubbling · delamination · imprint_on_surface · missing_edges · missing_top_f
 
 ## Model Performance
 
-| Model | Macro F1 | Image Acc |
-|---|---|---|
-| EfficientNet-B2 | 0.535 | 91.98% |
-| AlexNet | 0.501 | 87.04% |
+| Model                | Macro F1  | Image Acc  |
+| -------------------- | --------- | ---------- |
+| EfficientNet-B2      | 0.535     | 91.98%     |
+| AlexNet              | 0.501     | 87.04%     |
 | **2-model Ensemble** | **0.540** | **92.59%** |
 
 ## Setup
 
 ### Backend
+
 ```bash
 cd backend
 python -m venv .venv
@@ -40,6 +41,7 @@ python app.py
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
@@ -47,7 +49,9 @@ npm run dev
 ```
 
 ### Environment variables
+
 Create `backend/.env`:
+
 ```
 DATABASE_URL=postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres
 SECRET_KEY=your-secret-key
@@ -59,6 +63,7 @@ SECRET_KEY=your-secret-key
 ---
 
 ## Project Structure
+
 ```
 defectiq-fyp/
 ├── backend/
@@ -82,25 +87,9 @@ defectiq-fyp/
     ├── evaluate_ensemble.py
     └── create_board_crop_dataset.py
 ```
+
 ```
 
 ---
 
-### Step 4 — Create requirements.txt
-
-In `backend/` folder create `requirements.txt`:
 ```
-flask
-flask-cors
-torch
-torchvision
-opencv-python
-Pillow
-numpy
-scikit-learn
-ultralytics
-psycopg2-binary
-bcrypt
-PyJWT
-werkzeug
-python-dotenv
