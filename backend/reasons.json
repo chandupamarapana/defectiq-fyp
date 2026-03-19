@@ -1,0 +1,44 @@
+{
+  "bubbling": {
+    "summary": "Raised bubbles on surface.",
+    "recommendations": [
+      "control moisture",
+      "check pressing settings"
+    ]
+  },
+  "delamination": {
+    "summary": "Layer separation due to weak bonding.",
+    "recommendations": [
+      "verify glue spread",
+      "press temp/pressure check"
+    ]
+  },
+  "warping": {
+    "summary": "Bending due to moisture imbalance.",
+    "recommendations": [
+      "improve drying",
+      "store sheets flat"
+    ]
+  },
+  "imprint_on_surface": {
+    "summary": "Marks from press/handling.",
+    "recommendations": [
+      "clean press plates",
+      "improve handling"
+    ]
+  },
+  "missing_edges": {
+    "summary": "Edge material missing.",
+    "recommendations": [
+      "calibrate cutting",
+      "improve packing/transport"
+    ]
+  },
+  "missing_top_face": {
+    "summary": "Top veneer missing/damaged.",
+    "recommendations": [
+      "placement checks",
+      "bond cycle check"
+    ]
+  }
+}

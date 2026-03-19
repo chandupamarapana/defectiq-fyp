@@ -1,0 +1,14 @@
+flask
+flask-cors
+torch
+torchvision
+opencv-python
+Pillow
+numpy
+scikit-learn
+ultralytics
+psycopg2-binary
+bcrypt
+PyJWT
+werkzeug
+python-dotenv
