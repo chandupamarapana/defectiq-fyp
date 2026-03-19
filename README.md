@@ -87,9 +87,3 @@ defectiq-fyp/
     ├── evaluate_ensemble.py
     └── create_board_crop_dataset.py
 ```
-
-```
-
----
-
-```
