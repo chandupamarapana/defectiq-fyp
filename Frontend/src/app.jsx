@@ -7,8 +7,7 @@ const DEFECT_LABELS = {
   bubbling:           'Bubbling',
   delamination:       'Delamination',
   imprint_on_surface: 'Imprint on Surface',
-  missing_edges:      'Missing Edges',
-  missing_top_face:   'Missing Top Face',
+  missing_face:       'Missing Face',
   warping:            'Warping',
 };
 

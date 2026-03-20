@@ -10,10 +10,10 @@ DATABASE_URL = os.environ.get('DATABASE_URL', '')
 UPLOAD_FOLDER = 'uploads'
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-THRESHOLD = 0.45
+THRESHOLD = 0.48
 
-SURFACE_DEFECTS = {'bubbling', 'imprint_on_surface', 'missing_top_face'}
-STRUCTURAL_DEFECTS = {'warping', 'delamination', 'missing_edges'}
+SURFACE_DEFECTS = {'bubbling', 'imprint_on_surface', 'missing_face'}
+STRUCTURAL_DEFECTS = {'warping', 'delamination'}
 
 DEFECT_REASONS = {
     "bubbling": {

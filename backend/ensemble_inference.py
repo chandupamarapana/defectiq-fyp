@@ -20,18 +20,21 @@ import numpy as np
 import cv2
 
 CLASSES = [
-    'bubbling', 'delamination', 'imprint_on_surface',
-    'missing_edges', 'missing_top_face', 'warping',
+    'bubbling',
+    'delamination',
+    'imprint_on_surface',
+    'missing_face',
+    'warping',
 ]
 NUM_CLASSES = len(CLASSES)
 
 EFFICIENTNET_PATH = "models/defect_classifier_v6/defect_classifier.pt"
 ALEXNET_PATH = "models/defect_classifier_v7_alexnet/defect_classifier.pt"
-THRESHOLD = 0.45
+THRESHOLD = 0.56
 
-#                           [bubb, delam, impr, miss_e, miss_t, warp]
-WEIGHTS_EFFICIENTNET = torch.tensor([0.55, 0.60, 0.60,  0.50,  0.60, 0.40])
-WEIGHTS_ALEXNET = torch.tensor([0.45, 0.40, 0.40,  0.50,  0.40, 0.60])
+
+WEIGHTS_EFFICIENTNET = torch.tensor([0.55, 0.60, 0.60, 0.50, 0.40])
+WEIGHTS_ALEXNET = torch.tensor([0.45, 0.40, 0.40, 0.50, 0.60])
 
 _NORM = T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 TTA_TRANSFORMS = [
