@@ -30,7 +30,7 @@ NUM_CLASSES = len(CLASSES)
 
 EFFICIENTNET_PATH = "models/defect_classifier_v6/defect_classifier.pt"
 ALEXNET_PATH = "models/defect_classifier_v7_alexnet/defect_classifier.pt"
-THRESHOLD = 0.56
+THRESHOLD = 0.48
 
 
 WEIGHTS_EFFICIENTNET = torch.tensor([0.55, 0.60, 0.60, 0.50, 0.40])
