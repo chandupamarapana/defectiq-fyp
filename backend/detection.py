@@ -6,7 +6,7 @@ import base64
 import os
 from werkzeug.utils import secure_filename
 from config import (UPLOAD_FOLDER, ALLOWED_EXTENSIONS,
-                    SURFACE_DEFECTS, DEFECT_REASONS)
+                    SURFACE_DEFECTS, DEFECT_REASONS, CLEAN_BOARD_GATE)
 from ensemble_inference import DefectIQEnsemble
 from board_detector import BoardDetector
 import database as db
@@ -21,10 +21,13 @@ DEFECT_COLORS = {
     'bubbling':           (0,   200, 255),  # orange
     'delamination':       (0,   80,  255),  # red
     'imprint_on_surface': (255, 180, 0),    # blue
-    'missing_edges':      (0,   255, 180),  # green
-    'missing_top_face':   (180, 0,   255),  # purple
+    'missing_face':       (0,   255, 180),
     'warping':            (255, 80,  0),    # cyan
 }
+
+
+def is_clean_board(confidences: dict) -> bool:
+    return max(confidences.values()) < CLEAN_BOARD_GATE
 
 
 def allowed_file(filename):
@@ -109,11 +112,8 @@ def annotate_image(img_bgr, defects, confidences):
 
 
 def compute_verdict(defects, confidences):
-    """
-    Simplified verdict: PASS or REVIEW only.
-    REVIEW: any defect detected above threshold
-    PASS: no defects detected
-    """
+    if is_clean_board(confidences):
+        return 'PASS'
     if not defects:
         return 'PASS'
     return 'REVIEW'
@@ -130,13 +130,21 @@ def dual_view_fusion(result_top, result_side):
         t = result_top['confidences'][cls]
         s = result_side['confidences'][cls]
         if cls in SURFACE_DEFECTS:
-            # Surface defects: weight top view more
             fused[cls] = round(
                 max(0.65 * t + 0.35 * s, 0.50 * t + 0.50 * s), 4)
         else:
-            # Structural defects: weight side view more
             fused[cls] = round(
                 max(0.35 * t + 0.65 * s, 0.50 * t + 0.50 * s), 4)
+
+    # Clean board gate — if no class reaches the secondary gate,
+    # the board is treated as defect-free regardless of threshold
+    if is_clean_board(fused):
+        return {
+            'defects':       [],
+            'confidences':   fused,
+            'verdict':       'PASS',
+            'co_occurrence': [],
+        }
 
     threshold = ensemble.threshold
     defects = [cls for cls, conf in fused.items() if conf >= threshold]
