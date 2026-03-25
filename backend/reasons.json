@@ -27,18 +27,12 @@
       "improve handling"
     ]
   },
-  "missing_edges": {
-    "summary": "Edge material missing.",
+"missing_face": {
+    "summary": "Edge or top face material missing due to cutting errors, transport damage, or veneer detachment.",
     "recommendations": [
-      "calibrate cutting",
-      "improve packing/transport"
+        "Calibrate cutting equipment alignment",
+        "Improve packing and transport procedures",
+        "Check veneer placement and bond cycle settings"
     ]
-  },
-  "missing_top_face": {
-    "summary": "Top veneer missing/damaged.",
-    "recommendations": [
-      "placement checks",
-      "bond cycle check"
-    ]
-  }
+}
 }

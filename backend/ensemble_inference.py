@@ -187,5 +187,5 @@ class DefectIQEnsemble:
             return 'PASS'
         high_conf = [d for d in defects if confidences[d] >= 0.70]
         if len(defects) >= 2 or high_conf:
-            return 'FAIL'
+            return 'REVIEW'
         return 'REVIEW'
