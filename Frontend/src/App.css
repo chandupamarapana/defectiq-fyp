@@ -421,3 +421,351 @@ body {
     color: var(--text);
     border-color: var(--accent);
 }
+
+/* ══════════════════════════════════════════════
+   DEFECTIQ UI UPDATES — larger icons, bigger
+   annotated images, defect overlays, expand
+   ══════════════════════════════════════════════ */
+
+/* ── Upload zone — bigger icon ─────────────── */
+.upload-zone {
+  min-height: 260px;
+}
+
+.upload-icon-wrap {
+  width: 72px;
+  height: 72px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon-wrap svg {
+  width: 34px;
+  height: 34px;
+}
+
+.upload-placeholder {
+  gap: 14px;
+  padding: 2rem;
+}
+
+.upload-placeholder p {
+  font-size: 14px;
+  color: var(--text2);
+  font-weight: 500;
+}
+
+.upload-placeholder span {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.upload-label-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  bottom: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  background: rgba(15,17,23,0.9);
+}
+
+/* ── Brand mark — slightly bigger ─────────── */
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+/* ── Annotated images — large, clickable ───── */
+.ann-wrap {
+  cursor: zoom-in;
+  background: #000;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border2);
+  transition: border-color 0.2s;
+}
+
+.ann-wrap:hover {
+  border-color: var(--accent);
+}
+
+.ann-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  min-height: 300px;
+  object-fit: contain;
+}
+
+.ann-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(15,17,23,0.88);
+  color: var(--text);
+  padding: 6px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Defect name chips overlaid on the image */
+.ann-defects {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ann-defect-chip {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 7px;
+  background: rgba(239, 68, 68, 0.88);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.02em;
+}
+
+/* Click to expand — spans both columns */
+.ann-expanded {
+  grid-column: 1 / -1;
+  cursor: zoom-out;
+}
+
+.ann-expanded img {
+  min-height: 480px;
+  max-height: 75vh;
+  object-fit: contain;
+}
+
+/* ── Defect reason card — updated ──────────── */
+.dr-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dr-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--fail-bg);
+  border: 1px solid var(--fail);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.dr-conf-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--review);
+  background: var(--review-bg);
+  border: 1px solid var(--review);
+  padding: 3px 10px;
+  border-radius: 5px;
+  letter-spacing: 0.04em;
+}
+
+.dr-recs-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.dr-recs ul {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dr-recs li {
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.dr-recs li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+/* ── Pass state ─────────────────────────────── */
+.pass-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 2.5rem;
+  color: var(--pass);
+  text-align: center;
+}
+
+.pass-state .pass-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--pass-bg);
+  border: 1px solid var(--pass);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.pass-state p {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pass-state span {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+/* ── Verdict banner — taller, more visible ─── */
+.verdict-banner {
+  padding: 1.25rem 1.5rem;
+  font-size: 20px;
+  gap: 16px;
+}
+
+.verdict-icon {
+  font-size: 28px;
+  font-weight: 800;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.verdict-pass .verdict-icon   { background: rgba(34,197,94,0.2); }
+.verdict-review .verdict-icon { background: rgba(245,158,11,0.2); }
+.verdict-fail .verdict-icon   { background: rgba(239,68,68,0.2); }
+
+/* ══════════════════════════════════════════════
+   LAYOUT UPDATES — wider page, side-by-side
+   results, brand clickable
+   ══════════════════════════════════════════════ */
+
+/* ── Wider page ─────────────────────────────── */
+.page-inner-wide {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+}
+
+/* Override old narrow caps */
+.inspect-upload { max-width: 100%; }
+.inspect-results { max-width: 100%; }
+
+.inspect-upload-wide {
+  width: 100%;
+}
+
+.inspect-results-wide {
+  width: 100%;
+}
+
+/* Wider header */
+.header-inner {
+  max-width: 1400px;
+}
+
+.shell-footer {
+  max-width: 1400px;
+}
+
+/* ── Brand clickable ────────────────────────── */
+.brand-clickable {
+  cursor: pointer;
+  border-radius: var(--radius);
+  padding: 4px 8px;
+  margin: -4px -8px;
+  transition: background 0.15s;
+}
+.brand-clickable:hover {
+  background: var(--surface2);
+}
+
+/* ── Results side-by-side layout ────────────── */
+.results-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+  align-items: start;
+}
+
+.results-left  { min-width: 0; }
+.results-right { min-width: 0; }
+.results-right-full { grid-column: 1 / -1; }
+
+/* Annotated images stacked vertically in left panel */
+.annotated-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.annotated-stack .ann-wrap img {
+  min-height: 200px;
+  max-height: 320px;
+  object-fit: contain;
+  width: 100%;
+}
+
+.annotated-stack .ann-expanded img {
+  max-height: 500px;
+}
+
+/* ── Upload grid — wider ────────────────────── */
+.upload-grid {
+  grid-template-columns: 1fr 1fr;
+  max-width: 100%;
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .results-split {
+    grid-template-columns: 1fr;
+  }
+  .results-right-full {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-inner-wide { padding: 1rem; }
+  .upload-grid     { grid-template-columns: 1fr; }
+}

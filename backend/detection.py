@@ -67,10 +67,13 @@ def annotate_image(img_bgr, defects, confidences):
     for i, defect in enumerate(defects):
         color = DEFECT_COLORS.get(defect, (0, 165, 255))
         conf = confidences.get(defect, 0)
-        # Tint a band based on defect index
         y1 = max(0, i * band_h)
-        y2 = min(h - 60, y1 + band_h)
+        y2 = min(h, y1 + band_h)
+        if y2 <= y1:
+            continue
         tint = img[y1:y2, 0:w].copy()
+        if tint.size == 0:
+            continue
         tint_overlay = np.full_like(tint, color, dtype=np.uint8)
         img[y1:y2, 0:w] = cv2.addWeighted(tint, 0.85, tint_overlay, 0.15, 0)
 

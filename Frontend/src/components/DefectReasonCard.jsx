@@ -1,8 +1,10 @@
 // frontend/src/components/DefectReasonCard.jsx
 const LABELS = {
-    bubbling: 'Bubbling', delamination: 'Delamination',
-    imprint_on_surface: 'Imprint on Surface', missing_edges: 'Missing Edges',
-    missing_top_face: 'Missing Top Face', warping: 'Warping',
+    bubbling:           'Bubbling',
+    delamination:       'Delamination',
+    imprint_on_surface: 'Imprint on Surface',
+    missing_face:       'Missing Face',
+    warping:            'Warping',
 }
 
 export default function DefectReasonCard({ defect, info, confidence }) {
@@ -10,14 +12,17 @@ export default function DefectReasonCard({ defect, info, confidence }) {
     return (
         <div className="defect-reason-card">
             <div className="dr-header">
-                <span className="dr-name">{LABELS[defect] || defect}</span>
-                <span className="dr-pct">{pct}% confidence</span>
+                <div className="dr-name-wrap">
+                    <span className="dr-icon">!</span>
+                    <span className="dr-name">{LABELS[defect] || defect}</span>
+                </div>
+                <span className="dr-conf-badge">{pct}% confidence</span>
             </div>
             <p className="dr-summary">{info.summary}</p>
             <div className="dr-recs">
-                <strong>Recommendations:</strong>
+                <span className="dr-recs-title">Recommendations</span>
                 <ul>
-                    {info.recommendations.map((r, i) => <li key={i}>{r}</li>)}
+                    {(info.recommendations || []).map((r, i) => <li key={i}>{r}</li>)}
                 </ul>
             </div>
         </div>

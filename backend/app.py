@@ -8,7 +8,7 @@ import auth
 import database as db
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:5173"])
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -33,7 +33,7 @@ def detect_route():
 def history():
     return jsonify({'history': db.get_history(
         request.user_id,
-        limit=int(request.args.get('limit', 50)),
+        limit=int(request.args.get('limit') or 50),
         date_from=request.args.get('from'),
         date_to=request.args.get('to'),
     )}), 200

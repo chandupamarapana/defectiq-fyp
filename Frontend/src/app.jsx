@@ -573,8 +573,9 @@ export default function App() {
     const u = sessionStorage.getItem('user');
     return u ? JSON.parse(u) : null;
   });
-  const [authPage, setAuthPage] = useState('login');  // login | register
-  const [tab,      setTab]      = useState('inspect');
+  const [authPage,      setAuthPage]      = useState('login');
+  const [tab,           setTab]           = useState('inspect');
+  const [inspectResetKey, setInspectResetKey] = useState(0);
 
   const onLogin = (t, u) => {
     setToken(t); setUser(u);
@@ -589,6 +590,11 @@ export default function App() {
     sessionStorage.removeItem('user');
   };
 
+  const goInspect = () => {
+    setTab('inspect');
+    setInspectResetKey(k => k + 1);
+  };
+
   // ── Not logged in ──
   if (!token) {
     return authPage === 'login'
@@ -601,7 +607,9 @@ export default function App() {
     <div className="shell">
       <header className="shell-header">
         <div className="header-inner">
-          <div className="brand">
+
+          {/* Clicking brand resets to new inspection */}
+          <div className="brand brand-clickable" onClick={goInspect}>
             <div className="brand-mark">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
@@ -614,7 +622,7 @@ export default function App() {
           </div>
 
           <nav className="tab-nav">
-            <button className={`tab-btn ${tab === 'inspect'   ? 'active' : ''}`} onClick={() => setTab('inspect')}>
+            <button className={`tab-btn ${tab === 'inspect'   ? 'active' : ''}`} onClick={goInspect}>
               Inspect
             </button>
             <button className={`tab-btn ${tab === 'dashboard' ? 'active' : ''}`} onClick={() => setTab('dashboard')}>
@@ -633,8 +641,8 @@ export default function App() {
       </header>
 
       <main className="shell-main">
-        <div className="page-inner">
-          {tab === 'inspect'   && <InspectPage   token={token} />}
+        <div className="page-inner page-inner-wide">
+          {tab === 'inspect'   && <InspectPage   key={inspectResetKey} token={token} />}
           {tab === 'dashboard' && <DashboardPage token={token} />}
         </div>
       </main>

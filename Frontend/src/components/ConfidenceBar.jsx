@@ -1,8 +1,10 @@
 // frontend/src/components/ConfidenceBar.jsx
 const LABELS = {
-    bubbling: 'Bubbling', delamination: 'Delamination',
-    imprint_on_surface: 'Imprint on Surface', missing_edges: 'Missing Edges',
-    missing_top_face: 'Missing Top Face', warping: 'Warping',
+    bubbling:           'Bubbling',
+    delamination:       'Delamination',
+    imprint_on_surface: 'Imprint on Surface',
+    missing_face:       'Missing Face',
+    warping:            'Warping',
 }
 
 export default function ConfidenceBar({ label, value, detected }) {

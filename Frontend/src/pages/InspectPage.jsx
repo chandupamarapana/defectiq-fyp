@@ -5,6 +5,15 @@ import VerdictBanner from '../components/VerdictBanner'
 import ConfidenceBar from '../components/ConfidenceBar'
 import DefectReasonCard from '../components/DefectReasonCard'
 
+const DEFECT_LABELS = {
+    bubbling:           'Bubbling',
+    delamination:       'Delamination',
+    imprint_on_surface: 'Imprint on Surface',
+    missing_face:       'Missing Face',
+    warping:            'Warping',
+}
+
+// ── Upload Zone ──────────────────────────────────
 function UploadZone({ label, preview, onChange, disabled }) {
     const [drag, setDrag] = useState(false)
     const onDrop = useCallback((e) => {
@@ -22,11 +31,13 @@ function UploadZone({ label, preview, onChange, disabled }) {
             {preview
                 ? <img src={preview} alt={label} className="preview-img" />
                 : <div className="upload-placeholder">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" strokeWidth="1.5">
-                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-                    </svg>
+                    <div className="upload-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                        </svg>
+                    </div>
                     <p>Drop image or click to browse</p>
+                    <span>Supports JPG, PNG, WEBP</span>
                   </div>
             }
             <input type="file" accept="image/*" onChange={onChange}
@@ -36,6 +47,33 @@ function UploadZone({ label, preview, onChange, disabled }) {
     )
 }
 
+// ── Annotated image with click-to-expand ─────────
+function AnnImage({ base64, label, defects }) {
+    const [expanded, setExpanded] = useState(false)
+    return (
+        <div
+            className={`ann-wrap ${expanded ? 'ann-expanded' : ''}`}
+            onClick={() => setExpanded(e => !e)}
+        >
+            <span className="ann-label">{label} {expanded ? '[-]' : '[+]'}</span>
+            <img
+                src={`data:image/jpeg;base64,${base64}`}
+                alt={`${label} annotated`}
+            />
+            {defects && defects.length > 0 && (
+                <div className="ann-defects">
+                    {defects.map(d => (
+                        <span key={d} className="ann-defect-chip">
+                            {DEFECT_LABELS[d] || d}
+                        </span>
+                    ))}
+                </div>
+            )}
+        </div>
+    )
+}
+
+// ── Main Inspect Page ────────────────────────────
 export default function InspectPage({ token }) {
     const [topImg,   setTopImg]   = useState(null)
     const [sideImg,  setSideImg]  = useState(null)
@@ -76,15 +114,17 @@ export default function InspectPage({ token }) {
         }
     }
 
-    // ── Results view ──────────────────────────────────
+    // ── Results view ─────────────────────────────
     if (results) {
-        const detected = new Set(results.defects || [])
-        const conf     = results.confidences || {}
+        const detected   = new Set(results.defects || [])
+        const conf       = results.confidences || {}
+        const defectList = results.defects || []
+        const hasImages  = results.annotated_images?.top_view || results.annotated_images?.side_view
 
         return (
-            <div className="inspect-results">
+            <div className="inspect-results-wide">
 
-                {/* 1. Model output — verdict + confidence scores */}
+                {/* Row 1 — Verdict + confidence */}
                 <div className="section-card">
                     <VerdictBanner verdict={results.verdict} />
                     <div className="conf-list" style={{ marginTop: '1.25rem' }}>
@@ -97,76 +137,82 @@ export default function InspectPage({ token }) {
                     </div>
                 </div>
 
-                {/* 2. Annotated images with defect highlighting */}
-                {(results.annotated_images?.top_view || results.annotated_images?.side_view) && (
-                    <div className="section-card">
-                        <h3 className="section-title">
-                            Board images — defect locations highlighted
-                        </h3>
-                        <div className="annotated-grid">
-                            {results.annotated_images?.top_view && (
-                                <div className="ann-wrap">
-                                    <span className="ann-label">Top view</span>
-                                    <img
-                                        src={`data:image/jpeg;base64,${results.annotated_images.top_view}`}
-                                        alt="top annotated"
-                                        style={{ width: '100%', display: 'block' }}
-                                    />
+                {/* Row 2 — Images LEFT, Reasons RIGHT */}
+                <div className="results-split">
+
+                    {/* Left — annotated images */}
+                    {hasImages && (
+                        <div className="results-left">
+                            <div className="section-card" style={{ height: '100%' }}>
+                                <h3 className="section-title">
+                                    Board images — click to expand
+                                </h3>
+                                <div className="annotated-stack">
+                                    {results.annotated_images?.top_view && (
+                                        <AnnImage
+                                            base64={results.annotated_images.top_view}
+                                            label="Top view"
+                                            defects={defectList}
+                                        />
+                                    )}
+                                    {results.annotated_images?.side_view && (
+                                        <AnnImage
+                                            base64={results.annotated_images.side_view}
+                                            label="Side view"
+                                            defects={defectList}
+                                        />
+                                    )}
                                 </div>
-                            )}
-                            {results.annotated_images?.side_view && (
-                                <div className="ann-wrap">
-                                    <span className="ann-label">Side view</span>
-                                    <img
-                                        src={`data:image/jpeg;base64,${results.annotated_images.side_view}`}
-                                        alt="side annotated"
-                                        style={{ width: '100%', display: 'block' }}
-                                    />
-                                </div>
-                            )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {/* 3. Defect reasons */}
-                {results.defects?.length > 0 && (
-                    <div className="section-card">
-                        <h3 className="section-title">
-                            Defect analysis and recommendations
-                        </h3>
-                        {results.defects.map(d => (
-                            <DefectReasonCard
-                                key={d}
-                                defect={d}
-                                info={results.defect_info?.[d] || {}}
-                                confidence={conf[d]}
-                            />
-                        ))}
-                    </div>
-                )}
+                    {/* Right — defect reasons */}
+                    <div className={hasImages ? 'results-right' : 'results-right-full'}>
+                        {defectList.length > 0 && (
+                            <div className="section-card" style={{ height: '100%' }}>
+                                <h3 className="section-title">
+                                    Defect analysis and recommendations
+                                </h3>
+                                {defectList.map(d => (
+                                    <DefectReasonCard
+                                        key={d}
+                                        defect={d}
+                                        info={results.defect_info?.[d] || {}}
+                                        confidence={conf[d]}
+                                    />
+                                ))}
+                            </div>
+                        )}
 
-                {results.defects?.length === 0 && (
-                    <div className="section-card">
-                        <p style={{
-                            color: 'var(--pass)', textAlign: 'center',
-                            padding: '1.5rem', fontSize: '15px'
-                        }}>
-                            ✓ No defects detected above threshold. Board passes quality inspection.
-                        </p>
+                        {defectList.length === 0 && (
+                            <div className="section-card">
+                                <div className="pass-state">
+                                    <div className="pass-icon">&#10003;</div>
+                                    <p>No defects detected above threshold</p>
+                                    <span>Board passes quality inspection</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
 
-                <button className="btn-ghost" onClick={reset}
-                    style={{ marginTop: '1rem' }}>
-                    ← New inspection
-                </button>
+                {/* Actions */}
+                <div className="action-row" style={{ marginTop: '0.5rem' }}>
+                    <button className="btn-primary" onClick={reset}>
+                        + Inspect new board
+                    </button>
+                    <button className="btn-ghost" onClick={submit} disabled={loading}>
+                        {loading ? <><span className="spinner" /> Re-analysing...</> : 'Re-analyse'}
+                    </button>
+                </div>
             </div>
         )
     }
 
-    // ── Upload view ───────────────────────────────────
+    // ── Upload view ──────────────────────────────
     return (
-        <div className="inspect-upload">
+        <div className="inspect-upload-wide">
             <p className="page-sub">
                 Upload top-view and/or side-view images for dual-view defect analysis
             </p>
@@ -181,7 +227,7 @@ export default function InspectPage({ token }) {
                 <button className="btn-primary" onClick={submit}
                     disabled={loading || (!topImg && !sideImg)}>
                     {loading
-                        ? <><span className="spinner" /> Analysing…</>
+                        ? <><span className="spinner" /> Analysing...</>
                         : 'Analyse board'
                     }
                 </button>
