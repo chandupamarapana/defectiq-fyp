@@ -42,11 +42,11 @@ DEFECT_REASONS = {
         ]
     },
     "imprint_on_surface": {
-        "summary": "Surface marks from press plates, handling equipment or contamination.",
+        "summary": "Visible surface imprint or sunken top-face pattern caused by misaligned or uneven internal veneers beneath the face layer.",
         "recommendations": [
-            "Clean and inspect press plates regularly",
-            "Improve sheet handling and loading procedures",
-            "Check for foreign material on press surfaces"
+            "Check veneer alignment during lay-up",
+            "Ensure inner veneer layers are placed evenly before pressing",
+            "Inspect core assembly process for misplacement or overlap of internal veneers"
         ]
     },
     "missing_face": {
